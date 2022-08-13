@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # Pick dice
+import numpy as np
 
 Dice = [4,4,6]
 Rolls = []
@@ -17,21 +18,23 @@ for die in Dice:
     outcomes = outcomes * die
     Rolls.append(list(range(1,die+1)))
 
-#print(Rolls)
-
 print(f"Outcomes: {outcomes}")
 
-Results = []
+Results = np.array([])
+count = 0
 for die in Rolls:
-    new_results = []
-    if(Results == []):
-        new_results = die
+    count = count + 1
+    new_results = np.array([])
+    if(Results.size == 0):
+        new_results = np.array(die)
     else:
         for d in die:
             for r in Results:
-                new_results.append( d+r)
-    Results = new_results
+                new_results = np.append(new_results,d+r)
+    Results =  np.append(Results,new_results)
 
 #print(Results)
 Results.sort()
+Unique = np.unique(Results)
 print(Results)
+print(Unique)
