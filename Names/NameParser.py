@@ -68,8 +68,10 @@ class NameParser:
 
         print("Padding female list")
         for entry in self.female:
-            if(not len(self.female[entry]) == nyears+1):
-                self.pad_entry(entry)
+            if(not len(self.female[entry]) == nyears):
+                for y in self.yearlist:
+                    if(y not in self.female[entry]):
+                        self.female[entry][y] = 0
 
     def pad_entry(self,entry):
         for y in self.yearlist:
@@ -100,15 +102,16 @@ class NameParser:
         for entry in self.female:
             writer.writerow(self.female[entry])
 
-        fname = "neutral.csv"
-        fid = open(fname,'w')
-        fieldnames = ["Name"] + self.yearlist
-        writer = csv.DictWriter(fid, delimiter=',',fieldnames=fieldnames)
-        writer.writeheader()
-        
-        for entry in self.neutral:
-            writer.writerow(self.neutral[entry])
-        fid.close()
+# Option to look for overlap and output neutral names that are on both M/F lists
+#        fname = "neutral.csv"
+#        fid = open(fname,'w')
+#        fieldnames = ["Name"] + self.yearlist
+#        writer = csv.DictWriter(fid, delimiter=',',fieldnames=fieldnames)
+#        writer.writeheader()
+#        
+#        for entry in self.neutral:
+#            writer.writerow(self.neutral[entry])
+#        fid.close()
 
     def neutral_search(self):
         for key in self.male:
