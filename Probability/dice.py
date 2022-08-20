@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # Pick dice
+print("Importing libraries")
 import numpy as np
 
-Dice = [4,4,6]
+Dice = [6,6]
 Rolls = []
 Probability = []
 
@@ -30,7 +31,7 @@ for die in Rolls:
         for d in die:
             for r in Results:
                 new_results = np.append(new_results,d+r)
-    Results =  np.append(Results,new_results)
+    Results =  new_results
 
 Results.sort()
 Unique = np.unique(Results)
