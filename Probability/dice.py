@@ -34,3 +34,8 @@ for die in Rolls:
     Results =  new_results
 
 Unique = np.unique(Results)
+for i in Unique:
+	prob = np.count_nonzero(Results==i)/outcomes
+	Probability = np.append(Probability, prob)
+
+	print(f"{i}:\t{round(prob*100,2)}%")
