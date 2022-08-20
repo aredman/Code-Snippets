@@ -4,7 +4,7 @@ print("Importing libraries")
 import numpy as np
 import matplotlib.pyplot as plt
 
-Dice = [4,4,4,4]
+Dice = [6,6]
 Rolls = []
 Probability = []
 
@@ -49,5 +49,12 @@ ax.set_xlabel("Roll")
 ax.set_ylabel("Probability (%)")
 #ax.bar_label(p1,Unique,label_type="center")
 ax.bar_label(p1,np.round(Probability,2))
+ax.set_ylim([0,27])
 plt.xticks(Unique,Unique)
-plt.show()
+
+filename = "Roll"
+for i in Dice:
+	filename = f"{filename}_{i}"
+filename = filename + ".png"
+
+plt.savefig(filename)
