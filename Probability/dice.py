@@ -33,5 +33,4 @@ for die in Rolls:
                 new_results = np.append(new_results,d+r)
     Results =  new_results
 
-Results.sort()
 Unique = np.unique(Results)
