@@ -2,8 +2,9 @@
 # Pick dice
 print("Importing libraries")
 import numpy as np
+import matplotlib.pyplot as plt
 
-Dice = [6,6]
+Dice = [4,4,4,4]
 Rolls = []
 Probability = []
 
@@ -36,6 +37,17 @@ for die in Rolls:
 Unique = np.unique(Results)
 for i in Unique:
 	prob = np.count_nonzero(Results==i)/outcomes
-	Probability = np.append(Probability, prob)
+	Probability = np.append(Probability, prob*100)
 
 	print(f"{i}:\t{round(prob*100,2)}%")
+Unique = Unique.astype(int)
+
+figure, ax  = plt.subplots()
+p1 = ax.bar(Unique,np.round(Probability,2))
+ax.set_title(f"Dice Rolled: {Dice}")
+ax.set_xlabel("Roll")
+ax.set_ylabel("Probability (%)")
+#ax.bar_label(p1,Unique,label_type="center")
+ax.bar_label(p1,np.round(Probability,2))
+plt.xticks(Unique,Unique)
+plt.show()
