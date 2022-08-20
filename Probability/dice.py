@@ -9,15 +9,14 @@ Probability = []
 min_roll =len(Dice)
 max_roll = sum(Dice)
 
-print(f"Min Roll: {min_roll}")
-print(f"Max Roll: {max_roll}")
-
 
 outcomes = 1
 for die in Dice:
     outcomes = outcomes * die
     Rolls.append(list(range(1,die+1)))
 
+print(f"Min Roll: {min_roll}")
+print(f"Max Roll: {max_roll}")
 print(f"Outcomes: {outcomes}")
 
 Results = np.array([])
@@ -33,8 +32,5 @@ for die in Rolls:
                 new_results = np.append(new_results,d+r)
     Results =  np.append(Results,new_results)
 
-#print(Results)
 Results.sort()
 Unique = np.unique(Results)
-print(Results)
-print(Unique)
