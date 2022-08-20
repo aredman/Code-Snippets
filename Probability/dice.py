@@ -2,23 +2,23 @@
 # Pick dice
 print("Importing libraries")
 import numpy as np
+import argparse
 import matplotlib.pyplot as plt
 
-Dice = [6,6]
+# Import dice list as command line argument
+parser = argparse.ArgumentParser(description="Compute probability for multi-dice rolls")
+parser.add_argument('Dice', metavar='dice list', nargs='+',type=int)
+my_args = parser.parse_args()
+Dice = my_args.Dice
+
 Rolls = []
 Probability = []
-
-min_roll =len(Dice)
-max_roll = sum(Dice)
-
 
 outcomes = 1
 for die in Dice:
     outcomes = outcomes * die
     Rolls.append(list(range(1,die+1)))
 
-print(f"Min Roll: {min_roll}")
-print(f"Max Roll: {max_roll}")
 print(f"Outcomes: {outcomes}")
 
 Results = np.array([])
@@ -57,4 +57,4 @@ for i in Dice:
 	filename = f"{filename}_{i}"
 filename = filename + ".png"
 
-plt.savefig(filename)
+plt.savefig(filename,dpi=300)
