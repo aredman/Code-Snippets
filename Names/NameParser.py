@@ -9,10 +9,13 @@ import time
 import sys
 import urllib.request
 import zipfile
+from os import walk
+from os.path import splitext
 
 remote_names_url = 'http://www.ssa.gov/oact/babynames/names.zip' 
 local_file = 'Names.zip'
 names_folder = "Records"
+script_names_folder = [f".\\{names_folder}\\"]
 
 class NameParser:
     def __init__(self):
@@ -25,6 +28,10 @@ class NameParser:
 
     def add_file(self,filename):
         print("ADDING FILE:\t"  + str(filename) + "\t",end='')
+        file_extension = splitext(filename)[-1]
+        if(file_extension!='.txt'):
+            print(f"REJECTED: Bad filename")
+            return
 
         # Parse year
         year = self.get_year.search(filename)[0]
@@ -140,7 +147,8 @@ class NameParser:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process Social Security baby name lists")
     parser.add_argument('-d','--download', action='store_true',help="Download records as zip from SSA.gov website and unarchive")
-    parser.add_argument('-f','--files',required=False,metavar='File List', nargs='+',help="Input file list to process")
+    parser.add_argument('-p','--process', action='store_true',help="Process records after download")
+    parser.add_argument('-f','--folder',required=False,metavar='Folder location', nargs='+',help="Input folder which directly contains record files")
     my_args = parser.parse_args()
 
     if(my_args.download):
@@ -152,14 +160,21 @@ if __name__ == "__main__":
             zip_ref.extractall(names_folder)
         print("Success")
 
-    if(my_args.files == None):
-        print("No files to process... Quitting")
+    if(my_args.process):
+        my_args.folder = script_names_folder
+        print(f"Attempting to process records stored in {my_args.folder}")
+
+    if(my_args.folder == None):
+        print("No input folder to process... Quitting")
         sys.exit()
 
     my_names = NameParser()
 
-    for f in my_args.files:
-        my_names.add_file(f)
+    print(f"Records folder: {my_args.folder}")
+    for fo in my_args.folder:
+        for (dir_path,_,filenames) in walk(fo):
+            for f in filenames:
+                my_names.add_file(f"{dir_path}{f}")
 
     #my_names.neutral_search()
     my_names.pad_dictionary()
