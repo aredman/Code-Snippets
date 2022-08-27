@@ -1,11 +1,18 @@
 # Python script for processing baby names
-# Data must be pulled from://www.ssa.gov/oact/babynames/names.zip 
+# Data must be pulled from http://www.ssa.gov/oact/babynames/names.zip 
 # Script is unoptimized and will take 2 minutes to run on a laptop due to large array operations
 
 import re
 import argparse
 import csv
 import time
+import sys
+import urllib.request
+import zipfile
+
+remote_names_url = 'http://www.ssa.gov/oact/babynames/names.zip' 
+local_file = 'Names.zip'
+names_folder = "Records"
 
 class NameParser:
     def __init__(self):
@@ -132,8 +139,22 @@ class NameParser:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process Social Security baby name lists")
-    parser.add_argument('files', metavar='file list', nargs='+')
+    parser.add_argument('-d','--download', action='store_true',help="Download records as zip from SSA.gov website and unarchive")
+    parser.add_argument('-f','--files',required=False,metavar='File List', nargs='+',help="Input file list to process")
     my_args = parser.parse_args()
+
+    if(my_args.download):
+        print(f"Downloading records from {remote_names_url}")
+        urllib.request.urlretrieve(remote_names_url, local_file)
+        print(f"Download succeeded. Records placed in {local_file}")
+        print(f"Attempting to extract {local_file} to ./{names_folder}")
+        with zipfile.ZipFile(local_file, 'r') as zip_ref:
+            zip_ref.extractall(names_folder)
+        print("Success")
+
+    if(my_args.files == None):
+        print("No files to process... Quitting")
+        sys.exit()
 
     my_names = NameParser()
 
