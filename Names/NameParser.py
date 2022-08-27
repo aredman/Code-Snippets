@@ -98,7 +98,7 @@ class NameParser:
         print("Outputting names lists to csv")
 
         fname = "male.csv"
-        fid = open(fname,'w')
+        fid = open(fname,'w',newline='')
         fieldnames = ["Name"] + self.yearlist
         writer = csv.DictWriter(fid, delimiter=',',fieldnames=fieldnames)
         writer.writeheader()
@@ -108,7 +108,7 @@ class NameParser:
         fid.close()
 
         fname = "female.csv"
-        fid = open(fname,'w')
+        fid = open(fname,'w',newline='')
         fieldnames = ["Name"] + self.yearlist
         writer = csv.DictWriter(fid, delimiter=',',fieldnames=fieldnames)
         writer.writeheader()
@@ -173,6 +173,7 @@ if __name__ == "__main__":
     print(f"Records folder: {my_args.folder}")
     for fo in my_args.folder:
         for (dir_path,_,filenames) in walk(fo):
+            filename = filenames.sort(reverse=True)
             for f in filenames:
                 my_names.add_file(f"{dir_path}{f}")
 
