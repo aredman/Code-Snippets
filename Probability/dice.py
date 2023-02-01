@@ -48,7 +48,7 @@ ax.set_title(f"Dice Rolled: {Dice}")
 ax.set_xlabel("Roll")
 ax.set_ylabel("Probability (%)")
 #ax.bar_label(p1,Unique,label_type="center")
-ax.bar_label(p1,np.round(Probability,2))
+ax.bar_label(p1,np.round(Probability,1))
 ax.set_ylim([0,27])
 plt.xticks(Unique,Unique)
 
